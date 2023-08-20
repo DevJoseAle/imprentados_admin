@@ -61,14 +61,13 @@ export async function DELETE(
         if(!params.storeId){
             return new NextResponse('StoreID is required',{status:400})
         }
-        const store = await prismadb.store.deleteMany({
+        const store = await prismadb.store.delete({
             where:{
                 id: params.storeId,
-                userId,
-
-            }
-       
+                
+            },
         })
+
         return NextResponse.json(store)
     } catch (error) {
         console.log('STORES_PATCH', error)

@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  
 }
 
 datasource db {
@@ -27,7 +28,7 @@ model Store{
 model Billboard{
   id           String    @id @default(uuid())
   storeId      String
-  store        Store @relation("StoreToBillboard", fields: [storeId], references: [id])
+  store        Store @relation("StoreToBillboard", fields: [storeId], references: [id], onDelete: Cascade)
   label        String
   imageUrl     String
   categories   Category[]
@@ -42,9 +43,9 @@ model Billboard{
 model Category{
   id            String @id @default(uuid())
   storeId       String
-  store         Store @relation("StoreToCategory", fields: [storeId], references: [id])
+  store         Store @relation("StoreToCategory", fields: [storeId], references: [id],onDelete: Cascade)
   billboardID   String
-  billboard     Billboard @relation(fields: [billboardID], references: [id])
+  billboard     Billboard @relation(fields: [billboardID], references: [id], onDelete: Cascade)
   product       Product[] @relation("CategoryToProduct")
   subcategory   Subcategory[] @relation("SubcategoryToCategory")
   name          String
@@ -58,10 +59,10 @@ model Category{
 model Subcategory{
   id         String @id @default(uuid())
   storeId    String
-  store      Store @relation("StoreToSubcategory", fields: [storeId], references: [id])
+  store      Store @relation("StoreToSubcategory", fields: [storeId], references: [id], onDelete: Cascade)
   product    Product[] @relation("SubcategoryToProduct")
   categoryID String
-  category   Category @relation("SubcategoryToCategory", fields: [categoryID], references: [id])
+  category   Category @relation("SubcategoryToCategory", fields: [categoryID], references: [id], onDelete: Cascade)
   hasPrice   Boolean
   name       String
   value      String
@@ -76,11 +77,11 @@ model Subcategory{
 model Product{
   id            String @id @default(uuid())
   storeId       String
-  store         Store @relation("StoreToProduct", fields: [storeId], references: [id])
+  store         Store @relation("StoreToProduct", fields: [storeId], references: [id], onDelete: Cascade)
   categoryID    String
-  category      Category @relation("CategoryToProduct", fields: [categoryID], references: [id])
+  category      Category @relation("CategoryToProduct", fields: [categoryID], references: [id], onDelete: Cascade)
   subcategoryID String
-  subcategory   Subcategory @relation("SubcategoryToProduct", fields: [subcategoryID], references: [id])
+  subcategory   Subcategory @relation("SubcategoryToProduct", fields: [subcategoryID], references: [id],onDelete: Cascade)
   hasPrice      Boolean @default(false)
   isFeatured    Boolean @default(false) 
   isArchived    Boolean @default(false)
