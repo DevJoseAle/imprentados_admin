@@ -2,6 +2,10 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs"
 import { NextResponse } from "next/server"
 
+export const config = {
+    runtime: 'edge',
+}
+
 export async function GET(
     req: Request,
 ){
